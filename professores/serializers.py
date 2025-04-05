@@ -18,6 +18,7 @@ class ProfessorSerializer(serializers.ModelSerializer):
         max_digits=5,
         decimal_places=2,
     )
+    foto = serializers.ImageField(read_only=True, source="foto_perfil")
 
     class Meta:
         model = Professor
@@ -28,6 +29,7 @@ class ProfessorSerializer(serializers.ModelSerializer):
             "idade",
             "descricao",
             "valor_hora",
+            "foto",
             "created_at",
             "updated_at",
             "password",
@@ -53,3 +55,15 @@ class ProfessorSerializer(serializers.ModelSerializer):
         del validated_data["password_confirmation"]
         validated_data["password"] = make_password(validated_data["password"])
         return super().update(instance, validated_data)
+
+
+class ProfessorFotoPerfilSerializer(serializers.ModelSerializer):
+    foto = serializers.ImageField(
+        required=True,
+        write_only=True,
+        source="foto_perfil",
+    )
+
+    class Meta:
+        model = Professor
+        fields = ("foto",)

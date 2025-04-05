@@ -1,8 +1,14 @@
+from uuid import uuid4
+
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 
 from .managers import ProfessorManager
+
+
+def nome_arquivo_foto_perfil(instance, filename):
+    return f"fotos_perfil/{uuid4()}-{filename}"
 
 
 class Professor(AbstractBaseUser, PermissionsMixin):
@@ -16,6 +22,7 @@ class Professor(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(default=timezone.now)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    foto_perfil = models.ImageField(null=True, upload_to=nome_arquivo_foto_perfil)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["nome"]
@@ -29,3 +36,8 @@ class Professor(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.nome} - {self.email}"
+
+    def delete(self, *args, **kwargs):
+        if self.foto_perfil:
+            self.foto_perfil.delete(save=False)
+        super().delete(*args, **kwargs)

@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -35,6 +36,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "corsheaders",
 ]
 
 LOCAL_APPS = [
@@ -49,6 +51,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -142,6 +145,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "EXCEPTION_HANDLER": "core.handlers.custom_exception_handler",
 }
 
 SIMPLE_JWT = {
@@ -157,3 +161,21 @@ SIMPLE_JWT = {
     "TOKEN_REFRESH_SERIALIZER": "autenticacao.serializers.CustomTokenRefreshSerializer",
     "TOKEN_BLACKLIST_SERIALIZER": "autenticacao.serializers.CustomTokenBlacklistSerializer",
 }
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Configuração do S3
+# STORAGES = {
+#     "default": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
+#     "staticfiles": {"BACKEND": "storages.backends.s3boto3.S3StaticStorage"},
+# }
+
+# AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+# AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+# AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+# AWS_S3_REGION_NAME = config("AWS_S3_REGION_NAME")
+# AWS_DEFAULT_ACL = "public-read"
+# AWS_QUERYSTRING_AUTH = False
+
+CORS_ALLOW_ALL_ORIGINS = True
