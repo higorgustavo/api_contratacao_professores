@@ -162,8 +162,10 @@ SIMPLE_JWT = {
     "TOKEN_BLACKLIST_SERIALIZER": "autenticacao.serializers.CustomTokenBlacklistSerializer",
 }
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Executar localmente
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Configuração do S3
 # STORAGES = {

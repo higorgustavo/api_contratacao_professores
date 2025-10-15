@@ -18,7 +18,7 @@ class ProfessorSerializer(serializers.ModelSerializer):
         max_digits=5,
         decimal_places=2,
     )
-    foto = serializers.ImageField(read_only=True, source="foto_perfil")
+    foto_perfil = serializers.ImageField(read_only=True)
 
     class Meta:
         model = Professor
@@ -29,13 +29,14 @@ class ProfessorSerializer(serializers.ModelSerializer):
             "idade",
             "descricao",
             "valor_hora",
-            "foto",
+            "foto_perfil",
             "created_at",
             "updated_at",
             "password",
             "password_confirmation",
         )
         extra_kwargs = {
+            # "foto_perfil": {"use_url": True},
             "password": {"write_only": True},
             "created_at": {"read_only": True},
             "updated_at": {"read_only": True},
@@ -58,12 +59,11 @@ class ProfessorSerializer(serializers.ModelSerializer):
 
 
 class ProfessorFotoPerfilSerializer(serializers.ModelSerializer):
-    foto = serializers.ImageField(
+    foto_perfil = serializers.ImageField(
         required=True,
         write_only=True,
-        source="foto_perfil",
     )
 
     class Meta:
         model = Professor
-        fields = ("foto",)
+        fields = ("foto_perfil",)

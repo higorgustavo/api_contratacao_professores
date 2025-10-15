@@ -31,3 +31,5 @@ Uma API para gerenciar professores e aulas particulares desenvolvida com Django 
 A aplicação terá duas tabelas que irão se relacionar entre si, sendo elas a tabela `professores` e a tabela `alunos`.
 
 ![Diagrama Banco de Dados](diagrama-banco-dados.png)
+
+*Obs.: A aplicação está configurada para executar localmente, com a configuração do S3 desativada para que o usuário possa realizar testes sem a necessidade contratar o serviço.*
